@@ -31,8 +31,6 @@ class Image{
                 scanner.nextLine();
             }//set the scanner to start from line 2
 
-            // Step 2:
-
             // Step 3:
             while (scanner.hasNext()) {
                 pixelVal = scanner.nextInt();
@@ -73,9 +71,9 @@ public class Practice {
         int thrValue;
 
         //Step 0:
-        File infile = new File("./src/input.txt");
-        File outFile1 = new File("./src/outFile1.txt");
-        File outFile2 = new File("./src/outFile2.txt");
+        File infile = new File(args[0]);
+        File outFile1 = new File(args[1]);
+        File outFile2 = new File(args[2]);
 
         try{
             Scanner scanner =  new Scanner(infile);
@@ -93,14 +91,15 @@ public class Practice {
             scanner.close();
 
             //get threshold from user
+            System.out.println("Please enter the threshold value:");
             thrValue = in.nextInt();
 
             //close threshold scanner bc it is no longer needed
             in.close();
 
-           //Step 1:
-            fileWriter_outFile1.write("numRows: " + numRows + ", " + "numCols: " + numCols + ", " + "minVal: " + minVal + ", " + "maxVal: " + maxVal + "\n");
-            fileWriter_outFile2.write("numRows: " + numRows + ", " + "numCols: " + numCols + ", " + "minVal: " + minVal + ", " + "maxVal: " + maxVal + "\n");
+            //Step 1:
+            fileWriter_outFile1.write(numRows + " " + numCols + " " + minVal + " " + maxVal + "\n");
+            fileWriter_outFile2.write(numRows + " " + numCols + " " + minVal + " " + maxVal + "\n");
 
             //close filewriters
             fileWriter_outFile1.close();
@@ -113,9 +112,7 @@ public class Practice {
             //close files
             scanner.close();
 
-        }catch (FileNotFoundException e){
-            System.out.println(e);
-        }catch(IOException e){
+        } catch (IOException e){
             System.out.println(e);
         }
     }//main
