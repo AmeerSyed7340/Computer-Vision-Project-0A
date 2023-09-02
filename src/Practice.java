@@ -19,35 +19,36 @@ class Image{
     void processing(File inFile, File outFile1, File outFile2, int thrValue){
         //Step 0:
         int pixelVal;
+        int count = 0;
 
         //Step 1:
         try{
             Scanner scanner = new Scanner(inFile);
-            FileWriter fw_outFile1 = new FileWriter(outFile1);
-            FileWriter fw_outFile2 = new FileWriter(outFile2);
+            FileWriter fw_outFile1 = new FileWriter(outFile1, true);
+            FileWriter fw_outFile2 = new FileWriter(outFile2, true);
 
             if(scanner.hasNextLine()){
                 scanner.nextLine();
             }//set the scanner to start from line 2
 
-            //Step 3:
-            while(scanner.hasNext()){
-                pixelVal = scanner.nextInt();
+            // Step 2:
 
-                //Step 2:
-                for(int i = 0; i < this.numRows; i++){
-                    for(int j = 0; j < this.numCols; j++){
-                        if(pixelVal >= thrValue){
-                            fw_outFile1.write(1 + " ");
-                            fw_outFile2.write(pixelVal + " ");
-                        }
-                        else {
-                            fw_outFile1.write(0 + " ");
-                            fw_outFile2.write(0 + " ");
-                        }
-                    }
+            // Step 3:
+            while (scanner.hasNext()) {
+                pixelVal = scanner.nextInt();
+                if(pixelVal >= thrValue){
+                    fw_outFile1.write(1 + " ");
+                    fw_outFile2.write(pixelVal + " ");
+                }
+                else {
+                    fw_outFile1.write(0 + " ");
+                    fw_outFile2.write(0 + " ");
+                }
+                count++;
+                if(count == this.numCols){
                     fw_outFile1.write("\n");
                     fw_outFile2.write("\n");
+                    count = 0;
                 }
             }//while end
 
@@ -55,9 +56,7 @@ class Image{
             scanner.close();
             fw_outFile1.close();
             fw_outFile2.close();
-        }catch(FileNotFoundException e){
-            System.out.println(e);
-        }catch(IOException e){
+        } catch(IOException e){
             System.out.println(e);
         }
     }//processing
@@ -103,12 +102,17 @@ public class Practice {
             fileWriter_outFile1.write("numRows: " + numRows + ", " + "numCols: " + numCols + ", " + "minVal: " + minVal + ", " + "maxVal: " + maxVal + "\n");
             fileWriter_outFile2.write("numRows: " + numRows + ", " + "numCols: " + numCols + ", " + "minVal: " + minVal + ", " + "maxVal: " + maxVal + "\n");
 
+            //close filewriters
+            fileWriter_outFile1.close();
+            fileWriter_outFile2.close();
+
             //Step 2:
             Image img = new Image(numRows, numCols, minVal, maxVal, thrValue);
             img.processing(infile, outFile1, outFile2, thrValue);
+
             //close files
             scanner.close();
-            fileWriter_outFile1.close();
+
         }catch (FileNotFoundException e){
             System.out.println(e);
         }catch(IOException e){
